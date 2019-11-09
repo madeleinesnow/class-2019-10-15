@@ -11,10 +11,11 @@ knitr::opts_chunk$set(echo = FALSE)
 library(tidyverse)
 library(janitor)
 library(fs)
+library(gt)
 
 ```
 
-```{r tibble, include=FALSE}
+```{r tibble, include=TRUE}
 
 bowls <- tibble(replicate = 1:10000) %>% 
        mutate(which_bowl = sample(c("Bowl 1", "Bowl 2"), size = 10000, replace = TRUE)) %>% 
@@ -24,27 +25,16 @@ bowls <- tibble(replicate = 1:10000) %>%
        
 ```
 
-```{r vanilla, include=FALSE}
+If you pick a vanilla cookie, what is the probability that it is from bowl 1 or bowl 2?
 
-# if you pick a vanilla cookie, what is the probability that it is from bowl 1 or bowl 2?
+```{r vanilla, include=TRUE}
 
 bowls %>% 
   tabyl(which_bowl, cookie) %>% 
   adorn_percentages(denominator = "col") %>% 
-  adorn_pct_formatting()
+  adorn_pct_formatting() %>% 
+  gt()
 
 ```
 
-
-```{govdata, include=FALSE}
-
-download.file(https://docs.google.com/spreadsheets/d/e/2PACX-1vSaerGnn1tDQfgiyJRl7jnn1Au7Ev6Qt7BwMpl53ZgzAyMnANQfog9y4es4ZExlX5tjEgl0mPIyTGcP/pub?gid=480043959&single=true&output=csv, destfile = "trains.csv")
-
-trains <- read_csv("trains.csv")
-
-trains %>% 
-  group_by(treatment) %>% 
-  summarise(avg = mean(attitude))
-
-```
 
